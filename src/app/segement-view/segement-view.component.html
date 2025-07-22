@@ -1,0 +1,23 @@
+<div class="container-fluid">
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th rowspan="2" class="text-center">Segment Name</th>
+        <th colspan="2" class="text-center">Segment Budget</th>
+      </tr>
+      <tr>
+        <th *ngFor="let user of savingLimitService.users()" class="text-center">
+          {{ user.name }}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let segment of savingLimitService.segements()">
+        <td class="text-center">{{ segment.name }}</td>
+        <td *ngFor="let user of savingLimitService.users()" class="text-center">
+          {{ segment.budget[user.id.toString()] }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

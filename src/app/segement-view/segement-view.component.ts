@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SavingLimitService } from '../services/saving-limit.service';
 
 @Component({
@@ -6,7 +6,9 @@ import { SavingLimitService } from '../services/saving-limit.service';
   templateUrl: './segement-view.component.html',
   styleUrls: ['./segement-view.component.sass']
 })
-export class SegementViewComponent {
-
-  constructor(public savingLimitService: SavingLimitService){}
+export class SegementViewComponent implements OnInit {
+  constructor(public savingLimitService: SavingLimitService) { }
+  ngOnInit(): void {
+    this.savingLimitService.caluclateSum();
+  }
 }

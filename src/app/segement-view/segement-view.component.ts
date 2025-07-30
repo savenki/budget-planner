@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SavingLimitService } from '../services/saving-limit.service';
+import { TimePeriod } from '../models/timeperiod';
 
 @Component({
   selector: 'app-segement-view',

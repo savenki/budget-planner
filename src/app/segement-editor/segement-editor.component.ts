@@ -1,15 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SavingLimitService } from '../services/saving-limit.service';
+import { TimePeriod } from '../models/timeperiod';
 
 @Component({
   selector: 'app-segement-editor',
   templateUrl: './segement-editor.component.html',
   styleUrls: ['./segement-editor.component.sass']
 })
-export class SegementEditorComponent {
+export class SegementEditorComponent implements OnInit {
   segmentForm: FormGroup;
   showSuccess: boolean = false;
+  periods: TimePeriod[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -19,6 +21,13 @@ export class SegementEditorComponent {
       segments: this.fb.array([
         this.createSegment()
       ])
+    });
+    console.log(this.segmentForm)
+  }
+  ngOnInit(): void {
+    this.savingLimitService.getTimePeriods().subscribe({
+      next: data => this.periods = data,
+      error:err => console.log("Error in periods", err)
     });
   }
 
@@ -34,7 +43,8 @@ export class SegementEditorComponent {
 
     return this.fb.group({
       name: ['', Validators.required],
-      budget: budgetGroup
+      budget: budgetGroup,
+      time_period_id: [0, Validators.required],
     });
   }
 
@@ -43,13 +53,13 @@ export class SegementEditorComponent {
       this.segments.controls.forEach(segmentGroup => {
         const name = segmentGroup.get('name')?.value;
         const rawBudget = segmentGroup.get('budget')?.value;
-
+        const time_period_id = segmentGroup.get('time_period_id')?.value;
         const budget: Record<string, number> = {};
         this.savingLimitService.users().forEach(user => {
           budget[user.id.toString()] = rawBudget[user.name];
         });
 
-        this.savingLimitService.addSegement(name, budget);
+        this.savingLimitService.addSegement(name, budget,time_period_id);
       });
 
       this.showSuccess = true;

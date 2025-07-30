@@ -70,7 +70,8 @@
               "browserTarget": "budget-planner:build:production"
             },
             "development": {
-              "browserTarget": "budget-planner:build:development"
+              "browserTarget": "budget-planner:build:development",
+              "proxyConfig": "proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"

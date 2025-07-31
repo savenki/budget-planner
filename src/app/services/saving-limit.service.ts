@@ -1,9 +1,9 @@
 import { computed, Injectable, signal } from '@angular/core';
-import { User } from '../models/user';
+import { Planner } from '../models/planners';
 import { Segement } from '../models/segement';
 import { Expenses } from '../models/expenses';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 import { TimePeriod } from '../models/timeperiod';
 
 @Injectable({
@@ -11,18 +11,13 @@ import { TimePeriod } from '../models/timeperiod';
 })
 export class SavingLimitService {
 
-  users = signal<User[]>([{ id: 0, name: "Kavya" }, { id: 1, name: "Venky" }]);
+  planners = signal<Planner[]>([]);
   expenses = signal<Expenses[]>([]);
   segements = signal<Segement[]>([]);
   enrichedSegments: any;
   segementsTotal: number = 0;
   periods: TimePeriod[] = [];
-  constructor(private httpClient: HttpClient) {
-    this.getTimePeriods().subscribe({
-      next: data => this.periods = data,
-      error: err => console.log("Error in periods", err)
-    })
-  }
+  constructor(private httpClient: HttpClient) { }
 
   addSegement(name: string, budget: Record<string, number>, time_period_id = 1) {
     const newSegment: Segement = {
@@ -32,13 +27,17 @@ export class SavingLimitService {
       time_period_id
     };
     this.segements.update(prev => [...prev, newSegment]);
+    console.log(this.segements(), "Segements after added")
   }
 
   caluclateSum() {
     this.enrichedSegments = computed(() =>
       this.segements().map(segment => {
-        const entries = Object.entries(segment.budget);
-        const total = entries.reduce((sum, [, amount]) => sum + amount, 0);
+        const entries = Object.entries(segment.budget).map(([key, value]) => ({
+          key,
+          value
+        }));
+        const total = entries.reduce((sum, entry) => sum + entry.value, 0);
         return {
           name: segment.name,
           entries,
@@ -46,13 +45,20 @@ export class SavingLimitService {
           time_period_id: this.getTimePeriodById(segment.time_period_id)
         };
       })
-    )
+    );
+
+    console.log(this.enrichedSegments())
     this.segementsTotal = this.enrichedSegments().reduce((acc: any, curr: { [x: string]: any; }) => acc + curr['total'], 0);
   }
 
   getTimePeriods(): Observable<TimePeriod[]> {
     return this.httpClient.get<TimePeriod[]>("/budgetPlanner/timePeriod");
   }
+
+  getPlanners(): Observable<Planner[]> {
+    return this.httpClient.get<Planner[]>("budgetPlanner/planners");
+  }
+
   getTimePeriodById(id: number) {
     console.log(id)
     console.log(this.periods)
@@ -61,4 +67,13 @@ export class SavingLimitService {
     return match ? `${match.month} ${match.year}` : undefined;
   }
 
+  loadEssentialObjectsFromServer() {
+    forkJoin([this.getPlanners(), this.getTimePeriods()]).subscribe({
+      next: ([plannersData, timePeriodData]) => {
+        this.planners.update(() => plannersData);
+        this.periods = timePeriodData;
+      },
+      error: err => console.log("Error in Forkjoin of Planners and periods", err)
+    });
+  }
 }

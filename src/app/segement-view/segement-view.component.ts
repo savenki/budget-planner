@@ -12,4 +12,9 @@ export class SegementViewComponent implements OnInit {
   ngOnInit(): void {
     this.savingLimitService.caluclateSum();
   }
+
+  getBudgetValue(entries: { key: string, value: number }[], userId: string | number): number {
+  const entry = entries.find(e => e.key == userId);
+  return entry ? entry.value : 0;
+}
 }

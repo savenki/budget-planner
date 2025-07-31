@@ -18,9 +18,9 @@
       </div>
 
       <div formGroupName="budget">
-        <div *ngFor="let users of savingLimitService.users()" class="mb-3">
-          <label class="form-label">Budget for {{ users.name }}</label>
-          <input type="number" class="form-control" [formControlName]="users.name" placeholder="Enter Budget">
+        <div *ngFor="let planners of savingLimitService.planners()" class="mb-3">
+          <label class="form-label">Budget for {{ planners.userName}}</label>
+          <input type="number" class="form-control" [formControlName]="planners.id.toString()" placeholder="Enter Budget">
         </div>
       </div>
     </div>

@@ -7,8 +7,8 @@
         <th colspan="2" class="text-center">Segment Budget</th>
       </tr>
       <tr>
-        <th *ngFor="let user of savingLimitService.users()" class="text-center">
-          {{ user.name }}
+        <th *ngFor="let user of savingLimitService.planners()" class="text-center">
+          {{ user.userName.toUpperCase() }}
         </th>
         <th>Sum</th>
       </tr>
@@ -17,8 +17,8 @@
       <tr *ngFor="let segment of savingLimitService.enrichedSegments()">
        <td class="text-center">{{segment.time_period_id}}</td>
         <td class="text-center">{{ segment.name }}</td>
-        <td *ngFor="let user of savingLimitService.users()" class="text-center">
-          {{ segment.entries[user.id.toString()][1] }}
+        <td *ngFor="let user of savingLimitService.planners(); let i= index;" class="text-center">
+          {{getBudgetValue(segment.entries, user.id)}}
         </td>
         <td>
           {{segment.total}}

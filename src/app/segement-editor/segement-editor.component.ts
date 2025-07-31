@@ -22,7 +22,6 @@ export class SegementEditorComponent implements OnInit {
         this.createSegment()
       ])
     });
-    console.log(this.segmentForm)
   }
   ngOnInit(): void {
     this.savingLimitService.getTimePeriods().subscribe({
@@ -37,8 +36,8 @@ export class SegementEditorComponent implements OnInit {
 
   createSegment(): FormGroup {
     const budgetGroup = this.fb.group({});
-    this.savingLimitService.users().forEach(user => {
-      budgetGroup.addControl(user.name, this.fb.control(0, Validators.required));
+    this.savingLimitService.planners().forEach(user => {
+      budgetGroup.addControl(user.id.toString(), this.fb.control(0, Validators.required));
     });
 
     return this.fb.group({
@@ -55,8 +54,8 @@ export class SegementEditorComponent implements OnInit {
         const rawBudget = segmentGroup.get('budget')?.value;
         const time_period_id = segmentGroup.get('time_period_id')?.value;
         const budget: Record<string, number> = {};
-        this.savingLimitService.users().forEach(user => {
-          budget[user.id.toString()] = rawBudget[user.name];
+        this.savingLimitService.planners().forEach(user => {
+          budget[user.id.toString()] = rawBudget[user.id.toString()];
         });
 
         this.savingLimitService.addSegement(name, budget,time_period_id);

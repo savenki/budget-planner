@@ -70,8 +70,8 @@ export class SavingLimitService {
   loadEssentialObjectsFromServer() {
     forkJoin([this.getPlanners(), this.getTimePeriods()]).subscribe({
       next: ([plannersData, timePeriodData]) => {
-        this.planners.update(() => plannersData);
-        this.periods = timePeriodData;
+        this.planners.update(() => plannersData.sort((a,b) => a.id - b.id));
+        this.periods = timePeriodData.sort((a,b) => a.id - b.id);
       },
       error: err => console.log("Error in Forkjoin of Planners and periods", err)
     });

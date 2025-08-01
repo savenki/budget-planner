@@ -1,4 +1,4 @@
-<form [formGroup]="segmentForm" (ngSubmit)="onSubmit()" class="container mt-4">
+<form [formGroup]="segmentForm" class="container mt-4">
   <div formArrayName="segments">
 
     <div *ngFor="let segment of segments.controls; let i = index" [formGroupName]="i" class="card mb-3 p-3">
@@ -6,27 +6,27 @@
       <!-- 🗓️ TimePeriod Dropdown -->
       <div class="mb-3">
         <label class="form-label">Select Period<span class="text-danger">*</span></label>
-        <select class="form-control" formControlName="time_period_id" required="true">
-          <option *ngFor="let period of periods" [value]="period.id">
+        <select class="form-control" formControlName="time_period_id" >
+          <option *ngFor="let period of savingLimitService.periods" [value]="period.id">
             {{ period.month }} {{ period.year }}
           </option>
         </select>
       </div>
       <div class="mb-3">
         <label class="form-label" >Name<span class="text-danger">*</span></label>
-        <input type="text" class="form-control" formControlName="name" placeholder="Enter Segment Name" required="true">
+        <input type="text"  class="form-control" formControlName="name" placeholder="Enter Segment Name" >
       </div>
 
       <div formGroupName="budget">
         <div *ngFor="let planners of savingLimitService.planners()" class="mb-3">
           <label class="form-label">Budget for {{ planners.userName}}<span *ngIf="planners.userName!=='Baby'" class="text-danger">*</span></label>
-          <input type="number" class="form-control" [formControlName]="planners.id.toString()" placeholder="Enter Budget" required="true">
+          <input type="number" inputmode="numeric" class="form-control" [formControlName]="planners.id.toString()" placeholder="Enter Budget" >
         </div>
       </div>
     </div>
   </div>
 
-  <button type="submit" class="btn btn-primary">Submit</button>
+  <button type="submit" (click) = "onSubmit()"(touchend)="onSubmit()" [disabled]="!segmentForm.valid" class=" btn-primary">Submit</button>
 </form>
 
 <div *ngIf="showSuccess" class="alert alert-success d-flex align-items-center" role="alert">

@@ -21,13 +21,14 @@ export class SavingLimitService {
 
   addSegement(name: string, budget: Record<string, number>, time_period_id = 1) {
     const newSegment: Segement = {
-      id: crypto.randomUUID(),
+      id: this.segements().length+1,
       name,
       budget,
       time_period_id
     };
     this.segements.update(prev => [...prev, newSegment]);
     console.log(this.segements(), "Segements after added")
+    alert("segement added");
   }
 
   caluclateSum() {

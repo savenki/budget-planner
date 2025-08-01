@@ -1,5 +1,5 @@
 export interface Segement {
-    id: string;
+    id: number;
     name: string;
     budget: Record<string, number>;
     time_period_id:number;

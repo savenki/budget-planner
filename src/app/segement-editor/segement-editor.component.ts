@@ -48,6 +48,7 @@ export class SegementEditorComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log(this.segmentForm)
     if (this.segmentForm.valid) {
       this.segments.controls.forEach(segmentGroup => {
         const name = segmentGroup.get('name')?.value;
@@ -66,6 +67,8 @@ export class SegementEditorComponent implements OnInit {
 
       // Optionally reinitialize the form with one empty segment
       this.segmentForm.setControl('segments', this.fb.array([this.createSegment()]));
+    }else if(this.segmentForm?.invalid){
+      alert("please fill the form details!")
     }
   }
 }

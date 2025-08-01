@@ -1,38 +1,29 @@
-<div class="container-fluid" style="margin:10px;">
-    <div class="row">
-        <div class="col-md-4">
-            <div matRipple [matRippleCentered]="true" [matRippleColor]="'yellow'" class="thumbnail"
-                style="border: 1px solid grey; margin: auto; padding: 5px;">
-                <a routerLink="/segments">
-                    <img src="assets/create.png" alt="create" style="width:100%" class="img-thumbnail" />
-                    <div class="caption">
-                        <p>Create Segement</p>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="col-md-4">
+<div class="card-grid">
+      <mat-card class="action-card" routerLink="/segments">
+        <img mat-card-image src="assets/create.png" width="100vh" height="100vh" alt="Create Segment" />
+        <mat-card-content>
+          <p>Create Segment</p>
+        </mat-card-content>
+      </mat-card>
 
-            <div matRipple [matRippleCentered]="true" [matRippleColor]="'yellow'" class="thumbnail"
-                style="border: 1px solid grey; margin: auto; padding: 5px;">
-                <a routerLink="/segments-view">
-                    <img src="assets/create.png" alt="create" style="width:100%" class="img-thumbnail" />
-                    <div class="caption">
-                        <p>View Segement</p>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div matRipple [matRippleCentered]="true" [matRippleColor]="'yellow'" class="thumbnail"
-                style="border: 1px solid grey; margin: auto; padding: 5px;">
-                <a routerLink="/segments">
-                    <img src="assets/create.png" alt="create" style="width:100%;" class="img-thumbnail" />
-                    <div class="caption">
-                        <p>Dashboard</p>
-                    </div>
-                </a>
-            </div>
-        </div>
+      <mat-card class="action-card" routerLink="/segments-view">
+        <img mat-card-image src="assets/create.png" width="100vh" height="100vh" alt="View Segment" />
+        <mat-card-content>
+          <p>View Segment</p>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="action-card" routerLink="/menu">
+        <img mat-card-image src="assets/create.png" width="100vh" height="100vh" alt="Dashboard" />
+        <mat-card-content>
+          <p>Dashboard</p>
+        </mat-card-content>
+      </mat-card>
+
+       <mat-card class="action-card" routerLink="/menu">
+        <img mat-card-image src="assets/create.png" width="100vh" height="100vh" alt="Dashboard" />
+        <mat-card-content>
+          <p>Expenses</p>
+        </mat-card-content>
+      </mat-card>
     </div>
-</div>

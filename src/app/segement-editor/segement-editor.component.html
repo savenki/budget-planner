@@ -5,22 +5,22 @@
       <h5>Segment {{ i + 1 }}</h5>
       <!-- 🗓️ TimePeriod Dropdown -->
       <div class="mb-3">
-        <label class="form-label">Select Period</label>
-        <select class="form-control" formControlName="time_period_id">
+        <label class="form-label">Select Period<span class="text-danger">*</span></label>
+        <select class="form-control" formControlName="time_period_id" required="true">
           <option *ngFor="let period of periods" [value]="period.id">
             {{ period.month }} {{ period.year }}
           </option>
         </select>
       </div>
       <div class="mb-3">
-        <label class="form-label">Name</label>
-        <input type="text" class="form-control" formControlName="name" placeholder="Enter Segment Name">
+        <label class="form-label" >Name<span class="text-danger">*</span></label>
+        <input type="text" class="form-control" formControlName="name" placeholder="Enter Segment Name" required="true">
       </div>
 
       <div formGroupName="budget">
         <div *ngFor="let planners of savingLimitService.planners()" class="mb-3">
-          <label class="form-label">Budget for {{ planners.userName}}</label>
-          <input type="number" class="form-control" [formControlName]="planners.id.toString()" placeholder="Enter Budget">
+          <label class="form-label">Budget for {{ planners.userName}}<span *ngIf="planners.userName!=='Baby'" class="text-danger">*</span></label>
+          <input type="number" class="form-control" [formControlName]="planners.id.toString()" placeholder="Enter Budget" required="true">
         </div>
       </div>
     </div>
